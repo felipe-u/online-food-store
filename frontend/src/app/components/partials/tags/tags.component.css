@@ -10,9 +10,9 @@ div a {
     margin: 0.2rem 0.15rem;
     border-radius: 10rem;
     font-weight: 600;
-    color: rgb(57, 57, 57);
+    color: blue;
 }
 
 div a:active {
-    color: #e72929;
+    color: rgba(0, 0, 255, 0.377);
 }

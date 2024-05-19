@@ -23,7 +23,11 @@ export class FoodService {
   }
 
   getAllFoodByTag(tag: string): Food[] {
-    return tag == "All" ? this.getAll() : 
-    this.getAll().filter(food => food.tags?.includes(tag));
+    return tag == "All" ? this.getAll() :
+      this.getAll().filter(food => food.tags?.includes(tag));
+  }
+
+  getFoodById(id: string): Food {
+    return this.getAll().find(food => food.id === id) ?? new Food();
   }
 }

@@ -39,8 +39,6 @@ app.get("/api/foods/:foodId", (req, res) => {
 
 // LOGIN API
 app.post("/api/users/login", (req, res) => {
-    console.log("________________________________");
-    console.log(req.body);
     const { email, password } = req.body;
     const user = sample_users.find(user => user.email === email &&
         user.password === password);

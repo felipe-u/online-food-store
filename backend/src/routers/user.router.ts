@@ -18,28 +18,37 @@ router.get("/seed", expressAsyncHandler(
     }
 ))
 
-router.post("/login", (req, res) => {
-    const { email, password } = req.body;
-    const user = sample_users.find(user => user.email === email &&
-        user.password === password);
+router.post("/login", expressAsyncHandler(
+    async (req, res) => {
+        const { email, password } = req.body;
+        const user = await UserModel.findOne({ email, password });
 
-    if (user) {
-        res.send(generateTokenResponse(user));
-    } else {
-        res.status(400).send("User name or password is not valid!")
+        if (user) {
+            res.send(generateTokenResponse(user));
+        } else {
+            const BAD_REQUEST = 400;
+            res.status(BAD_REQUEST).send("User name or password is not valid!")
+        }
     }
-});
+));
 
 // TOKEN MANAGMENT
 const generateTokenResponse = (user: any) => {
     const token = jwt.sign({
         email: user.email, isAdmin: user.isAdmin
-    }, "SomeRandomText", {
+    }, process.env.JWT_SECRET!, {
         expiresIn: "30d"
     });
 
     user.token = token;
-    return user;
+    return {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        address: user.address,
+        isAdmin: user.isAdmin,
+        token: token
+    };
 };
 
 export default router;
